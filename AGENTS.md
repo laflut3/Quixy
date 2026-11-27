@@ -8,7 +8,7 @@ Use available skills when they fit the task: `fast-codex-workflow` for focused r
 
 ## Git workflow
 
-- Contributors fork `laflut3/Quixy` and open pull requests from their fork to `laflut3/Quixy:main`.
+- Contributors without write access fork `laflut3/Quixy` and open pull requests to its `main` branch. Contributors with write access may open pull requests from branches in the official repository.
 - AI agents must never push to or merge into the official `main` branch, even when the current credentials allow it. Push only to a contributor fork and leave the pull request for the repository owner to review and merge.
 - Update contributor branches from `upstream/main` with rebase. Merge commits and squash merges are disabled.
 - Prefix branch names with a change type, such as `feat/boot-protocol`, `refactor/memory-map`, `docs/contributing`, `fix/boot`, or `test/serial-output`. Use another clear type when needed.

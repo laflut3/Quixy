@@ -38,11 +38,18 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
           HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
           BASE_REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ github.token }}
           HEAD_USER: ${{ github.event.pull_request.user.login }}
         run: |
           if [[ "$HEAD_REPO" == "$BASE_REPO" && "$HEAD_USER" != "dependabot[bot]" ]]; then
-            echo "Open pull requests from a fork of the official repository."
-            exit 1
+            permission="$(gh api "repos/$BASE_REPO/collaborators/$HEAD_USER/permission" --jq '.permission')"
+            case "$permission" in
+              admin|maintain|write) ;;
+              *)
+                echo "Open pull requests from a fork unless you have write access to the official repository."
+                exit 1
+                ;;
+            esac
           fi
 
           if [[ ! "$BRANCH_NAME" =~ ^[a-z][a-z0-9-]*/[a-z0-9][a-z0-9._/-]*$ ]]; then
@@ -312,7 +319,7 @@ jobs:
 
   release:
     name: release
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-24.04
     permissions:
       contents: write
@@ -320,6 +327,16 @@ jobs:
     env:
       RELEASE_TAG: ${{ github.ref_name }}
     steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check tagged commit is on main
+        run: |
+          if ! git merge-base --is-ancestor HEAD refs/remotes/origin/main; then
+            echo "::error::Release tags must point to a commit on main."
+            exit 1
+          fi
       - name: Check release tag format
         shell: bash
         run: |
@@ -329,19 +346,19 @@ jobs:
             echo "Invalid release tag: $RELEASE_TAG. Expected vMAJOR.MINOR.PATCH."
             exit 1
           fi
-      - name: Check source image exists
-        run: docker buildx imagetools inspect ${{ env.IMAGE_NAME }}:${{ github.sha }}
       - name: Login to GitHub Container Registry
         uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4
         with:
           registry: ${{ env.CONTAINER_REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check source image exists
+        run: docker buildx imagetools inspect "$IMAGE_NAME:$(git rev-parse HEAD)"
       - name: Tag release image
         run: |
           docker buildx imagetools create \
             -t ${{ env.IMAGE_NAME }}:${RELEASE_TAG#v} \
-            ${{ env.IMAGE_NAME }}:${{ github.sha }}
+            "$IMAGE_NAME:$(git rev-parse HEAD)"
       - name: Create GitHub release
         uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3
         with:

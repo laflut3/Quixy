@@ -36,7 +36,7 @@ Describe any security, boot, hardware, or compatibility impact. Write `None` if 
 
 ## Checklist
 
-- [ ] This pull request comes from a fork and targets `laflut3/Quixy:main`.
+- [ ] This pull request targets `laflut3/Quixy:main` from a fork or an authorized branch in the official repository.
 - [ ] The branch name has a type prefix, such as `feat/`, `fix/`, or `docs/`.
 - [ ] Commit subjects use the `type: summary` format.
 - [ ] The branch is based on the latest `upstream/main` using rebase.

@@ -2,7 +2,7 @@
 
 ## Changes
 
-Fork `laflut3/Quixy`, create a branch in your fork, then open a pull request from that branch to `laflut3/Quixy:main`. Keep the change focused and include a short summary and the checks you ran. Discuss larger design changes in an issue first.
+Open a pull request to `laflut3/Quixy:main`. If you have write access, you can use a branch in the official repository. Otherwise, follow the fork setup below. Keep the change focused and include a short summary and the checks you ran. Discuss larger design changes in an issue first.
 
 ```sh
 git clone https://github.com/<your-user>/Quixy.git
