@@ -12,6 +12,6 @@ fn main_prints_hello_world() {
   );
   assert_eq!(
     String::from_utf8_lossy(&output.stdout),
-    "Hello, world!\nThis is a Rust-based project.\n"
+    "Hello, world!\nWelcome to Quixy.\n"
   );
 }
