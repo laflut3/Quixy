@@ -1,17 +1,18 @@
 # Quixy
 
-Quixy is an early-stage kernel project written in Rust. Kernel development has not started yet; the repository currently contains a Rust starter program.
+[![CI](https://github.com/laflut3/Quixy/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/laflut3/Quixy/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+
+Quixy is a Rust kernel project. The current starter program runs with Cargo.
 
 ## Run locally
 
-Install the stable Rust toolchain, then run:
+Install stable Rust, then run this command from the repository root.
 
 ```sh
 cargo run
 ```
 
-Run the project checks with `cargo fmt --check`, `cargo clippy --all-targets -- -D warnings`, `cargo test`, and `cargo build`.
+## Project links
 
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md). The project is licensed under the [MIT License](LICENSE).
+[Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Issues](https://github.com/laflut3/Quixy/issues)

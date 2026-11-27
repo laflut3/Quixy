@@ -18,13 +18,11 @@ Use available skills when they fit the task: `fast-codex-workflow` for focused r
 
 ## AI-assisted pull requests
 
-When a contributor asks an AI to prepare or open a pull request, append one entry to `STUPID.md` on that pull request branch. Keep existing entries. Include this line in each entry:
+AI agents may write documentation, comments, and tests. These changes are excluded from the production code percentage.
 
-```text
-I am a stupid developer and I don't create my MR solo
-```
+When preparing a pull request, compare the branch diff with the pull request base. Divide the number of added production code lines you wrote by the total number of added production code lines in the diff. Exclude documentation, comments, blank lines, unit and integration tests, test fixtures, configuration, lockfiles, generated files, and deleted lines from both counts.
 
-Compare the branch diff with the pull request base. Count added source and test code lines written by the AI, then divide by all added source and test code lines in that diff. Exclude documentation, configuration, lockfiles, generated files, and deleted lines. If the result is greater than 40%, add this line to the same entry with the measured percentage in place of the placeholder:
+Create or update `STUPID.md` only when the percentage is strictly greater than 40%. If there are zero added production code lines, leave the file untouched. Keep existing entries and append this line with the measured percentage in place of the placeholder:
 
 ```text
 More of 40% was write by IA : ${real percentage}

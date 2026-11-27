@@ -1,3 +1,5 @@
 # Security
 
-Report vulnerabilities through GitHub's private vulnerability reporting for this repository. Do not open a public issue for a security report.
+[Report a vulnerability privately](https://github.com/laflut3/Quixy/security/advisories/new).
+
+Include the affected version or commit, the impact, and the steps needed to reproduce the issue.

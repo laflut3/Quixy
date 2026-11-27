@@ -116,16 +116,48 @@ jobs:
         with:
           toolchain: stable
       - run: cargo test --locked
+      - name: Package the binary built for integration tests
+        run: tar -C target/debug -czf quixy-kernel.tar.gz quixy-kernel
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: rust-build
+          path: quixy-kernel.tar.gz
+          if-no-files-found: error
 
-  build:
-    name: build
+  coverage:
+    name: coverage
+    needs: test
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - uses: actions-rust-lang/setup-rust-toolchain@2b1f5e9b395427c92ee4e3331786ca3c37afe2d7 # v1
         with:
           toolchain: stable
-      - run: cargo build --locked
+          components: llvm-tools-preview
+      - run: cargo install --locked cargo-llvm-cov --version 0.9.1
+      - name: Measure unit test coverage
+        run: cargo llvm-cov --locked --lib --json --summary-only --output-path coverage.json
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: unit-coverage
+          path: coverage.json
+      - name: Require more than 80 percent line coverage
+        run: |
+          jq '.data[0].totals.lines' coverage.json
+          jq -e '.data[0].totals.lines | .count > 0 and (.covered * 5 > .count * 4)' coverage.json
+
+  build:
+    name: build
+    needs: coverage
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
+        with:
+          name: rust-build
+      - name: Run the compiled binary
+        run: |
+          tar -xzf quixy-kernel.tar.gz
+          ./quixy-kernel
 
   docker-lint:
     name: docker-lint

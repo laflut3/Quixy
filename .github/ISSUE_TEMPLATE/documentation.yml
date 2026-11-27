@@ -2,7 +2,7 @@ name: Documentation issue
 description: Report missing, unclear, incorrect, or outdated project documentation.
 title: "[Docs] "
 labels:
-  - documentation
+  - docs
 body:
   - type: markdown
     attributes:

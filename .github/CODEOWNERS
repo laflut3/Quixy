@@ -1,0 +1,18 @@
+# Project configuration and governance
+/.github/ @laflut3
+/.cargo/ @laflut3
+/Cargo.toml @laflut3
+/Cargo.lock @laflut3
+/rust-toolchain @laflut3
+/rust-toolchain.toml @laflut3
+/rustfmt.toml @laflut3
+/Dockerfile @laflut3
+/.dockerignore @laflut3
+/.gitignore @laflut3
+/prek.toml @laflut3
+/trivy.yaml @laflut3
+/.trivyignore @laflut3
+/AGENTS.md @laflut3
+/CONTRIBUTING.md @laflut3
+/SECURITY.md @laflut3
+/LICENSE @laflut3
