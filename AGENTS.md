@@ -14,7 +14,7 @@ Use available skills when they fit the task: `fast-codex-workflow` for focused r
 - Prefix branch names with a change type, such as `feat/boot-protocol`, `refactor/memory-map`, `docs/contributing`, `fix/boot`, or `test/serial-output`. Use another clear type when needed.
 - Prefix commit subjects with the same type and a colon, such as `feat: add boot entry` or `docs: explain local setup`.
 - Keep pull requests focused and describe the change and checks performed.
-- CI must pass before merging. Only the repository owner currently has write access.
+- Merging requires all required CI checks to pass and approval from at least one maintainer with write access who did not author the pull request.
 
 ## AI-assisted pull requests
 

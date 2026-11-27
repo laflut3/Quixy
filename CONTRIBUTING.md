@@ -20,6 +20,7 @@ git push --force-with-lease
 ```
 
 ## Labels and review
+Merging requires all required CI checks to pass and approval from at least one maintainer with write access who did not author the pull request.
 
 | Label | Use |
 | --- | --- |
