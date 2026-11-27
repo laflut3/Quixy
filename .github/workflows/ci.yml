@@ -6,6 +6,7 @@ on:
     tags: ["v*"]
   pull_request:
     branches: [main]
+    types: [opened, reopened, synchronize, edited]
   schedule:
     - cron: "0 8 * * 1"
   workflow_dispatch:
@@ -34,6 +35,7 @@ jobs:
           fetch-depth: 0
       - name: Check fork, branch, and commit conventions
         env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
           BRANCH_NAME: ${{ github.head_ref }}
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
           HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
@@ -54,6 +56,21 @@ jobs:
 
           if [[ ! "$BRANCH_NAME" =~ ^[a-z][a-z0-9-]*/[a-z0-9][a-z0-9._/-]*$ ]]; then
             echo "Branch name must use a type prefix, for example feat/boot-protocol or fix/boot."
+            exit 1
+          fi
+
+          if ! git merge-base --is-ancestor "$BASE_SHA" HEAD; then
+            echo "Rebase your branch onto the latest main."
+            exit 1
+          fi
+
+          if [[ -n "$(git rev-list --merges "$BASE_SHA..HEAD")" ]]; then
+            echo "Remove merge commits from your branch by rebasing onto main."
+            exit 1
+          fi
+
+          if [[ ! "$PR_TITLE" =~ ^[a-z][a-z0-9-]*(\([a-z0-9._/-]+\))?:\ .+ ]]; then
+            echo "Use type: summary for the pull request title, which becomes the squash commit subject."
             exit 1
           fi
 

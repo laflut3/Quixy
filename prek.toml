@@ -63,3 +63,20 @@ entry = "cargo clippy --all-targets -- -D warnings"
 language = "system"
 pass_filenames = false
 types = ["rust"]
+
+[[repos.hooks]]
+id = "branch-format"
+name = "Branch name format"
+entry = "bash scripts/check-git-format.sh branch"
+language = "system"
+stages = ["pre-commit"]
+always_run = true
+pass_filenames = false
+
+[[repos.hooks]]
+id = "commit-format"
+name = "Commit subject format"
+entry = "bash scripts/check-git-format.sh commit"
+language = "system"
+stages = ["commit-msg"]
+always_run = true

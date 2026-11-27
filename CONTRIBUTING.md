@@ -11,7 +11,7 @@ git remote add upstream https://github.com/laflut3/Quixy.git
 git switch -c feat/your-change
 ```
 
-Use branches such as `feat/boot-protocol`, `refactor/memory-map`, `docs/contributing`, `fix/boot`, or `test/serial-output`. Prefix commit subjects with the matching type, for example `feat: add boot entry`. Use another clear type when needed. Rebase your branch onto `upstream/main` to update it. Merge commits and squash merges are disabled.
+Use branches such as `feat/boot-protocol`, `refactor/memory-map`, `docs/contributing`, `fix/boot`, or `test/serial-output`. Prefix commit subjects with the matching type, for example `feat: add boot entry`. Use another clear type when needed. Rebase your branch onto `upstream/main` to update it. GitHub squash merges pull requests and automatically deletes eligible source branches.
 
 ```sh
 git fetch upstream
@@ -52,7 +52,7 @@ Pull requests run formatting, Clippy, tests, a Rust build, Dockerfile linting, a
 Install [prek](https://github.com/j178/prek), then enable and run the local hooks:
 
 ```sh
-prek install
+prek install --hook-type pre-commit --hook-type commit-msg
 prek run --all-files
 ```
 

@@ -1,3 +1,5 @@
+<!-- Use a title such as "fix: correct the boot sequence". GitHub uses it for the squash commit. -->
+
 ## Summary
 
 Describe the change and why it is needed.
