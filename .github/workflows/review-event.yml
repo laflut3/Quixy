@@ -1,0 +1,13 @@
+name: Review event
+
+on:
+  pull_request_review:
+    types: [submitted, dismissed]
+
+permissions: {}
+
+jobs:
+  notify:
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo 'Review state changed.'
