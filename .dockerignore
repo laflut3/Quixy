@@ -6,9 +6,7 @@ target
 .env
 .env.example
 .gitignore
-.pre-commit-config.yaml
-compose.yml
+prek.toml
 Dockerfile
 README.md
-renovate.json
 rustfmt.toml

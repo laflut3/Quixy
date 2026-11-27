@@ -1,4 +1,3 @@
 fn main() {
-  println!("Hello, world!");
-  println!("This is a Rust-based project.");
+  println!("{}", quixy_kernel::startup_message());
 }

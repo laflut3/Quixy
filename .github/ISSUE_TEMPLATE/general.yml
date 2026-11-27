@@ -1,0 +1,49 @@
+name: General issue
+description: Propose a change, ask a project question, or discuss work that is not a bug or documentation correction.
+title: "[General] "
+labels:
+  - triage
+body:
+  - type: markdown
+    attributes:
+      value: Use this form for feature proposals, questions, and project tasks. Use the dedicated forms for bugs and documentation.
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - Feature proposal
+        - Question
+        - Project task
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: State the request or question in a few sentences.
+      placeholder: What would you like to discuss or change?
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Explain the problem, use case, or prior discussion behind this request.
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Expected outcome
+      description: Describe what a useful result would look like. Add acceptance criteria for larger proposals.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: List any other approaches you considered, or write `None`.
+    validations:
+      required: false

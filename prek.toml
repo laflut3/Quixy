@@ -1,0 +1,82 @@
+[[repos]]
+repo = "https://github.com/pre-commit/pre-commit-hooks"
+rev = "v6.0.0"
+
+[[repos.hooks]]
+id = "check-case-conflict"
+
+[[repos.hooks]]
+id = "check-merge-conflict"
+
+[[repos.hooks]]
+id = "check-symlinks"
+
+[[repos.hooks]]
+id = "destroyed-symlinks"
+
+[[repos.hooks]]
+id = "check-toml"
+
+[[repos.hooks]]
+id = "check-json"
+
+[[repos.hooks]]
+id = "check-yaml"
+
+[[repos.hooks]]
+id = "mixed-line-ending"
+
+[[repos.hooks]]
+id = "detect-private-key"
+
+[[repos.hooks]]
+id = "end-of-file-fixer"
+
+[[repos.hooks]]
+id = "trailing-whitespace"
+
+[[repos.hooks]]
+id = "check-added-large-files"
+
+[[repos]]
+repo = "https://github.com/hadolint/hadolint"
+rev = "v2.14.0"
+
+[[repos.hooks]]
+id = "hadolint"
+
+[[repos]]
+repo = "local"
+
+[[repos.hooks]]
+id = "rust-format"
+name = "Rust format"
+entry = "cargo fmt --all -- --check"
+language = "system"
+pass_filenames = false
+types = ["rust"]
+
+[[repos.hooks]]
+id = "rust-clippy"
+name = "Rust clippy"
+entry = "cargo clippy --all-targets -- -D warnings"
+language = "system"
+pass_filenames = false
+types = ["rust"]
+
+[[repos.hooks]]
+id = "branch-format"
+name = "Branch name format"
+entry = "bash scripts/check-git-format.sh branch"
+language = "system"
+stages = ["pre-commit"]
+always_run = true
+pass_filenames = false
+
+[[repos.hooks]]
+id = "commit-format"
+name = "Commit subject format"
+entry = "bash scripts/check-git-format.sh commit"
+language = "system"
+stages = ["commit-msg"]
+always_run = true

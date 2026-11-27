@@ -1,0 +1,72 @@
+name: Dependabot and PR policy
+
+on:
+  pull_request_target:
+    branches: [main]
+    types: [opened, reopened, synchronize]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+  statuses: write
+
+jobs:
+  stupid-label:
+    name: stupid-label
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check the pull request diff
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          MERGE_SHA: ${{ github.event.pull_request.merge_commit_sha }}
+        run: |
+          files="$(gh api --paginate "repos/$GITHUB_REPOSITORY/pulls/$PR_NUMBER/files" --jq '.[].filename')"
+          labels="$(gh api --paginate "repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/labels" --jq '.[].name')"
+
+          set_policy_status() {
+            gh api --method POST "repos/$GITHUB_REPOSITORY/statuses/$HEAD_SHA" \
+              -f "state=$1" \
+              -f context=stupid-policy \
+              -f "description=$2"
+            if [[ -n "$MERGE_SHA" && "$MERGE_SHA" != "$HEAD_SHA" ]]; then
+              gh api --method POST "repos/$GITHUB_REPOSITORY/statuses/$MERGE_SHA" \
+                -f "state=$1" \
+                -f context=stupid-policy \
+                -f "description=$2"
+            fi
+          }
+
+          if grep -Fxq 'STUPID.md' <<< "$files"; then
+            if ! grep -Fxq 'STUPID' <<< "$labels"; then
+              gh api --method POST "repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/labels" --input - <<'JSON'
+          {"labels":["STUPID"]}
+          JSON
+            fi
+            echo "Applied the STUPID label to this pull request."
+            set_policy_status failure 'STUPID.md is present in the pull request diff'
+            exit 0
+          fi
+
+          if grep -Fxq 'STUPID' <<< "$labels"; then
+            gh api --method DELETE "repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/labels/STUPID"
+          fi
+
+          set_policy_status success 'STUPID.md is not present in the pull request diff'
+          echo "STUPID.md is not present in the pull request diff."
+
+  dependabot-label:
+    name: dependabot-label
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Label dependency updates
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          gh api --method POST "repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/labels" --input - <<'JSON'
+          {"labels":["dependencies"]}
+          JSON
