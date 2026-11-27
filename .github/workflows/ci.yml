@@ -20,7 +20,7 @@ permissions:
 
 env:
   CONTAINER_REGISTRY: ghcr.io
-  IMAGE_NAME: ghcr.io/laflut3/rust-based-project
+  IMAGE_NAME: ghcr.io/laflut3/quixy-kernel
 
 jobs:
   conventions:

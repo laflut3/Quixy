@@ -22,10 +22,10 @@ RUN cp "/app/target/$(cat /rust-target)/release/quixy-kernel" /app/quixy-kernel
 FROM gcr.io/distroless/static-debian13@sha256:47b2d72ff90843eb8a768b5c2f89b40741843b639d065b9b937b07cd59b479c6 AS runtime
 
 LABEL org.opencontainers.image.title="Quixy"
+LABEL org.opencontainers.image.source="https://github.com/laflut3/Quixy"
 LABEL org.opencontainers.image.description="Early-stage Rust kernel project."
 LABEL org.opencontainers.image.base.name="gcr.io/distroless/static-debian13"
 
 USER nonroot:nonroot
 COPY --from=builder /app/quixy-kernel /usr/local/bin/quixy-kernel
-EXPOSE 2022
 ENTRYPOINT [ "/usr/local/bin/quixy-kernel" ]
