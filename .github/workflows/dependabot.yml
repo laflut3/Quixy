@@ -14,6 +14,7 @@ permissions:
 jobs:
   stupid-label:
     name: stupid-label
+    if: github.event.pull_request.user.login != 'dependabot[bot]' && github.actor != 'dependabot[bot]'
     runs-on: ubuntu-24.04
     steps:
       - name: Check the pull request diff
@@ -56,17 +57,3 @@ jobs:
 
           set_policy_status success 'STUPID.md is not present in the pull request diff'
           echo "STUPID.md is not present in the pull request diff."
-
-  dependabot-label:
-    name: dependabot-label
-    if: github.actor == 'dependabot[bot]'
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Label dependency updates
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-        run: |
-          gh api --method POST "repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/labels" --input - <<'JSON'
-          {"labels":["dependencies"]}
-          JSON
