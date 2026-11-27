@@ -1,0 +1,18 @@
+[[repos]]
+repo = "local"
+
+[[repos.hooks]]
+id = "rust-format"
+name = "Rust format"
+entry = "cargo fmt --all -- --check"
+language = "system"
+pass_filenames = false
+types = ["rust"]
+
+[[repos.hooks]]
+id = "rust-clippy"
+name = "Rust clippy"
+entry = "cargo clippy --all-targets -- -D warnings"
+language = "system"
+pass_filenames = false
+types = ["rust"]

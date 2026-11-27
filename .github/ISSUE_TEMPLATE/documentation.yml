@@ -1,0 +1,50 @@
+name: Documentation issue
+description: Report missing, unclear, incorrect, or outdated project documentation.
+title: "[Docs] "
+labels:
+  - documentation
+body:
+  - type: markdown
+    attributes:
+      value: Report documentation problems here. Use the bug report form for behavior that differs from the documented behavior.
+  - type: input
+    id: location
+    attributes:
+      label: Documentation location
+      description: Link the page or name the file and section.
+      placeholder: README.md, section "Run locally"
+    validations:
+      required: true
+  - type: dropdown
+    id: problem_type
+    attributes:
+      label: Problem type
+      options:
+        - Missing information
+        - Unclear instructions
+        - Incorrect information
+        - Outdated information
+        - Typo or formatting
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong or missing?
+      description: Quote the relevant text or describe what you could not find.
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: Suggested correction
+      description: Describe the information or wording that would resolve the issue.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: If the issue depends on a tool or platform, include its name and version.
+    validations:
+      required: false
